@@ -1,0 +1,11 @@
+{
+  "name": "quote-files",
+  "version": "1.0.0",
+  "description": "文件中引用的其他文件列表",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
