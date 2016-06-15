@@ -18,7 +18,7 @@ console.log(list);
     <meta charset="UTF-8">
     <title>Document</title>
     <link href="test.css" />
-    <script src="index.js"></script>
+    <script src="http://www.baidu.com/index.js"></script>
 </head>
 <body>
 <style>
@@ -33,5 +33,33 @@ console.log(list);
 ```
 则list将为
 ```
-[ 'test.css', 'index.js', 'test2.js', 'test3.css', 'test2.css' ]
+[ { path: 'test.css',
+    absolute: '/node_modules/quote-files/test/index.html/test.css',
+    isLocal: true,
+    isExist: false },
+  { path: 'index.js',
+    absolute: '/node_modules/quote-files/test/index.html/index.js',
+    isLocal: true,
+    isExist: false },
+  { path: 'http://www.baidu.com/index.js',
+    absolute: 'http://www.baidu.com/index.js',
+    isLocal: false,
+    isExist: undefined },
+  { path: 'test2.js',
+    absolute: '/node_modules/quote-files/test/index.html/test2.js',
+    isLocal: true,
+    isExist: false },
+  { path: 'test3.css',
+    absolute: '/node_modules/quote-files/test/index.html/test3.css',
+    isLocal: true,
+    isExist: false },
+  { path: 'test2.css',
+    absolute: '/node_modules/quote-files/test/index.html/test2.css',
+    isLocal: true,
+    isExist: false } ]
+
 ```
+
+## 修改历史
+1.0.1 引入文件增加是否是本地信息
+1.0.0 引入文件列表

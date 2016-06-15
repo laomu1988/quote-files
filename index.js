@@ -17,19 +17,32 @@ var quoteRule = {
         }]
 };
 
-module.exports = function (config) {
-    if (typeof config === 'string') {
-        config = {file: config}
+
+function getAttr(filepath, refFile) {
+    refFile = (refFile + '').trim();
+    var absolutePath = refFile, isLocal = true, isExist;
+    if (refFile.indexOf('http:') == 0 || refFile.indexOf('https:') == 0 || refFile.indexOf('//') == 0) {
+        isLocal = false;
+    } else {
+        absolutePath = path.resolve(filepath, refFile);
+        isExist = fs.existsSync(absolutePath);
     }
-    if (typeof config !== 'object') {
-        return false;
+    return {path: refFile, absolute: absolutePath, isLocal: isLocal, isExist: isExist};
+}
+
+
+module.exports = function (filepath) {
+    if (!filepath) {
+        throw new Error('filepath must has values');
+        return;
     }
+    filepath = filepath + '';
     try {
-        if (!fs.existsSync(config.file)) {
-            console.log(config.file + ' Do NOT exist!   ');
+        if (!fs.existsSync(filepath)) {
+            console.log(filepath + ' Do NOT exist!   ');
             return false;
         }
-        var ext = path.extname(config.file);
+        var ext = path.extname(filepath);
         switch (ext) {
             case '.htm':
             case '.html':
@@ -44,7 +57,7 @@ module.exports = function (config) {
             case '.sass':
             case '.scss':
                 var list = [];
-                var content = fs.readFileSync(config.file, 'utf8');
+                var content = fs.readFileSync(filepath, 'utf8');
                 for (var attr in quoteRule) {
                     for (var i in quoteRule[attr]) {
                         var rule = quoteRule[attr][i];
@@ -52,7 +65,7 @@ module.exports = function (config) {
                             var file = arguments[rule.index];
                             if (file) {
                                 // console.log(file);
-                                list.push(file);
+                                list.push(getAttr(filepath, file));
                             }
                         });
                     }
