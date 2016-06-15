@@ -18,20 +18,28 @@ var quoteRule = {
 };
 
 
-function getAttr(filepath, refFile) {
+function getAttr(filepath, refFile, rootFolder) {
     refFile = (refFile + '').trim();
     var absolutePath = refFile, isLocal = true, isExist;
     if (refFile.indexOf('http:') == 0 || refFile.indexOf('https:') == 0 || refFile.indexOf('//') == 0) {
         isLocal = false;
     } else {
-        absolutePath = path.resolve(filepath, refFile);
+        if (refFile[0] == '/') {
+            if (!rootFolder) {
+                throw new Error('quote-files need projectFolder');
+                return;
+            }
+            absolutePath = (rootFolder + refFile[0]).replace('//', '/');
+        } else {
+            absolutePath = path.resolve(filepath.substr(0, filepath.lastIndexOf('/')), refFile);
+        }
         isExist = fs.existsSync(absolutePath);
     }
     return {path: refFile, absolute: absolutePath, isLocal: isLocal, isExist: isExist};
 }
 
 
-module.exports = function (filepath) {
+module.exports = function (filepath, rootFolder) {
     if (!filepath) {
         throw new Error('filepath must has values');
         return;
@@ -65,7 +73,7 @@ module.exports = function (filepath) {
                             var file = arguments[rule.index];
                             if (file) {
                                 // console.log(file);
-                                list.push(getAttr(filepath, file));
+                                list.push(getAttr(filepath, file, rootFolder));
                             }
                         });
                     }

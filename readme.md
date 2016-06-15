@@ -3,10 +3,12 @@
 
 ## 使用说明
 * 安装： npm install quote-files
-* 使用
+* 使用 quote(filepath, projectPath);
+    - filepath: 要查找引用的文件路径
+    - projectPath: 项目所在目录，当引用以/开始时使用
 ```
 var quote = require("quote-files");
-var list = quote('index.html');
+var list = quote(__dirname + '/project/index.html',__dirname + '/project/');
 console.log(list);
 ```
 
@@ -34,11 +36,11 @@ console.log(list);
 则list将为
 ```
 [ { path: 'test.css',
-    absolute: '/node_modules/quote-files/test/index.html/test.css',
+    absolute: '/Users/muzhilong/nuomi/node_modules/quote-files/test/test.css',
     isLocal: true,
     isExist: false },
   { path: 'index.js',
-    absolute: '/node_modules/quote-files/test/index.html/index.js',
+    absolute: '/Users/muzhilong/nuomi/node_modules/quote-files/test/index.js',
     isLocal: true,
     isExist: false },
   { path: 'http://www.baidu.com/index.js',
@@ -46,20 +48,20 @@ console.log(list);
     isLocal: false,
     isExist: undefined },
   { path: 'test2.js',
-    absolute: '/node_modules/quote-files/test/index.html/test2.js',
+    absolute: '/Users/muzhilong/nuomi/node_modules/quote-files/test/test2.js',
     isLocal: true,
     isExist: false },
   { path: 'test3.css',
-    absolute: '/node_modules/quote-files/test/index.html/test3.css',
+    absolute: '/Users/muzhilong/nuomi/node_modules/quote-files/test/test3.css',
     isLocal: true,
     isExist: false },
   { path: 'test2.css',
-    absolute: '/node_modules/quote-files/test/index.html/test2.css',
+    absolute: '/Users/muzhilong/nuomi/node_modules/quote-files/test/test2.css',
     isLocal: true,
     isExist: false } ]
-
 ```
 
 ## 修改历史
-1.0.1 引入文件增加是否是本地信息
-1.0.0 引入文件列表
+* 1.0.2 增加项目文件夹
+* 1.0.1 引入文件增加是否是本地信息
+* 1.0.0 引入文件列表
